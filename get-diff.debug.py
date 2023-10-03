@@ -14,8 +14,6 @@ try:
     cmd = ["python", ("%s.py" % script_name)] + cmd_args
     subprocess.run(cmd, check=True)
 except Exception as e:
-    pass
-
-print("")
-input("Press any key to exit ... ")
+    print("")
+    input("Press any key to exit ... ")
 
