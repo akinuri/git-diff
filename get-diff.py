@@ -5,15 +5,17 @@ import json
 import shutil
 
 from utils.exit_prog import exit_prog
+from utils.input_adv import input_adv
+from utils.input_choice import input_choice
 
 
-os.system("title " + "Getting the changes of the last commit")
+os.system("title " + "Git Diff")
 
 
 #region ==================== INPUT
 
 if len(sys.argv) == 1:
-    print("First argument (input directory path) is missing.")
+    print("First argument (git project path) is missing.")
     exit_prog("")
 
 if not os.path.isdir(sys.argv[1]):
@@ -46,7 +48,7 @@ print("\n".join([
 ]))
 
 git_diff_choice       = 3
-git_diff_choice_input = input("Your choice: ")
+git_diff_choice_input = input_choice("Your choice: ", ["1", "2", "3"])
 
 try:
     git_diff_choice = int(git_diff_choice_input)
@@ -62,7 +64,7 @@ git_commit_depth = 1
 
 if git_diff_choice == GIT_DIFF_COMMITED:
     
-    git_commit_depth_input = input("Enter the git commit depth: ")
+    git_commit_depth_input = input_adv("Enter the git commit depth: ")
     
     try:
         git_commit_depth = int(git_commit_depth_input)
@@ -200,7 +202,7 @@ if os.path.isdir(dump_dir_path):
         "0. Nothing (exit)",
         "1. Delete it (continue)",
     ]))
-    delete_previous_dump = input("Your choice: ")
+    delete_previous_dump = input_choice("Your choice: ", ["0", "1"])
     if delete_previous_dump == "0":
         exit_prog("")
     elif delete_previous_dump == "1":
@@ -215,8 +217,13 @@ if os.path.isdir(dump_dir_path):
 
 if (os.path.isfile(dump_archive_path)):
     if delete_previous_dump is None:
-        print("There is already an achive named \""+ dump_archive_name +"\" in the desktop.")
-        delete_previous_dump = input("Delete it? (Type 0 for no, 1 for yes): ")
+        print("\n".join([
+            "There is already an archive named \""+ dump_archive_name +"\" in the desktop.",
+            "What do you want to do?",
+            "0. Nothing (exit)",
+            "1. Delete it (continue)",
+        ]))
+        delete_previous_dump = input_choice("Your choice: ", ["0", "1"])
     if delete_previous_dump == "0":
         exit_prog("")
     elif delete_previous_dump == "1":
