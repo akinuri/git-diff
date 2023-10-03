@@ -4,23 +4,21 @@ import subprocess
 import json
 import shutil
 
+from utils.exit_prog import exit_prog
+
 
 os.system("title " + "Getting the changes of the last commit")
-
-EXIT_MSG = "Program will close.\n"
 
 
 #region ==================== INPUT
 
 if len(sys.argv) == 1:
     print("First argument (input directory path) is missing.")
-    input(EXIT_MSG)
-    sys.exit()
+    exit_prog("")
 
 if not os.path.isdir(sys.argv[1]):
     print("First argument needs to be a directory path.")
-    input(EXIT_MSG)
-    sys.exit()
+    exit_prog("")
 
 #endregion
 
@@ -54,13 +52,11 @@ try:
     git_diff_choice = int(git_diff_choice_input)
 except:
     print(git_diff_choice_input + " is not a valid number.")
-    input(EXIT_MSG)
-    sys.exit()
+    exit_prog("")
 
 if git_diff_choice not in [GIT_DIFF_UNCOMMITED, GIT_DIFF_STAGED, GIT_DIFF_COMMITED]:
     print(git_diff_choice_input + " is not a valid choice.")
-    input(EXIT_MSG)
-    sys.exit()
+    exit_prog("")
 
 git_commit_depth = 1
 
@@ -72,13 +68,11 @@ if git_diff_choice == GIT_DIFF_COMMITED:
         git_commit_depth = int(git_commit_depth_input)
     except:
         print(git_commit_depth_input + " is not a valid number.")
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
     
     if git_commit_depth < 1 or git_commit_depth > 50:
         print(str(git_commit_depth) + " seems to exceed the valid commit range.")
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
 
 #endregion
 
@@ -208,38 +202,32 @@ if os.path.isdir(dump_dir_path):
     ]))
     delete_previous_dump = input("Your choice: ")
     if delete_previous_dump == "0":
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
     elif delete_previous_dump == "1":
         try:
             shutil.rmtree(dump_dir_path)
         except OSError as e:
             print("Error: %s - %s." % (e.filename, e.strerror))
-            input(EXIT_MSG)
-            sys.exit()
+            exit_prog("")
     else:
         print(delete_previous_dump + " is not a valid answer.")
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
 
 if (os.path.isfile(dump_archive_path)):
     if delete_previous_dump is None:
         print("There is already an achive named \""+ dump_archive_name +"\" in the desktop.")
         delete_previous_dump = input("Delete it? (Type 0 for no, 1 for yes): ")
     if delete_previous_dump == "0":
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
     elif delete_previous_dump == "1":
         try:
             os.remove(dump_archive_path)
         except OSError as e:
             print("Error: %s - %s." % (e.filename, e.strerror))
-            input(EXIT_MSG)
-            sys.exit()
+            exit_prog("")
     else:
         print(delete_previous_dump + " is not a valid answer.")
-        input(EXIT_MSG)
-        sys.exit()
+        exit_prog("")
 
 os.mkdir(dump_dir_path)
 
@@ -277,7 +265,5 @@ os.chdir(root_dir_path)
 #endregion
 
 
-print("All done.")
+exit_prog("All done.")
 
-input(EXIT_MSG)
-sys.exit()
