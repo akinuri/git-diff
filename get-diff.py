@@ -41,17 +41,6 @@ root_dir_path = os.path.dirname(os.path.realpath(__file__))
 #endregion
 
 
-#region ==================== GIT CHECK
-
-os.chdir(git_dir_path)
-if not os.path.isdir(".git"):
-    print("The input folder does not have a .git folder.")
-    exit_prog("")
-os.chdir(root_dir_path)
-
-#endregion
-
-
 #region ==================== USER CHOICES
 
 GIT_DIFF_UNCOMMITED = 1
