@@ -7,6 +7,8 @@ import shutil
 from utils.exit_prog import exit_prog
 from utils.input_adv import input_adv
 from utils.input_choice import input_choice
+from utils.input2 import input2
+from utils.is_git_project import is_git_project
 
 
 os.system("title " + "Git Diff")
@@ -14,22 +16,25 @@ os.system("title " + "Git Diff")
 
 #region ==================== INPUT
 
-first_arg = sys.argv[1] if len(sys.argv) > 1 else None
+input_arg = sys.argv[1] if len(sys.argv) > 1 else None
 
-if first_arg is None:
-    print("First argument (git project path) is missing.")
-    exit_prog("")
-
-if not os.path.isdir(first_arg):
-    print("The argument needs to be a directory path.")
-    exit_prog("")
+if input_arg is None:
+    input_arg = input2("Enter the git project path: ", validate=is_git_project)
+else:
+    if not is_git_project(input_arg):
+        print(input_arg + " is not a valid git project path.")
+        input_arg = input2(
+            "Enter the git project path: ",
+            validate=is_git_project,
+            invalid_text="The input folder does not have a .git folder.",
+        )
 
 #endregion
 
 
 #region ==================== VARS
 
-git_dir_path  = first_arg
+git_dir_path  = input_arg
 git_dir_name  = os.path.basename(git_dir_path)
 root_dir_path = os.path.dirname(os.path.realpath(__file__))
 
