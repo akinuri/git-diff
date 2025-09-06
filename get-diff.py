@@ -14,12 +14,14 @@ os.system("title " + "Git Diff")
 
 #region ==================== INPUT
 
-if len(sys.argv) == 1:
+first_arg = sys.argv[1] if len(sys.argv) > 1 else None
+
+if first_arg is None:
     print("First argument (git project path) is missing.")
     exit_prog("")
 
-if not os.path.isdir(sys.argv[1]):
-    print("First argument needs to be a directory path.")
+if not os.path.isdir(first_arg):
+    print("The argument needs to be a directory path.")
     exit_prog("")
 
 #endregion
@@ -27,7 +29,7 @@ if not os.path.isdir(sys.argv[1]):
 
 #region ==================== VARS
 
-git_dir_path  = sys.argv[1]
+git_dir_path  = first_arg
 git_dir_name  = os.path.basename(git_dir_path)
 root_dir_path = os.path.dirname(os.path.realpath(__file__))
 
